@@ -1,28 +1,11 @@
-#!/bin/bash
-
-set -e
-
-: ${CAKESHOP_HOME:="/opt/cakeshop"}
-: ${JAVA_OPTS:=""}
-
-if [[ -n "$CAKESHOP_USER" && -n "$CAKESHOP_GROUP" ]]; then
-  chown -R $CAKESHOP_USER:$CAKESHOP_GROUP $CAKESHOP_HOME
-  export USER="$CAKESHOP_USER" # spring boot fix
+if [ ! -f data/local/application.properties ]; then
+    if [ "$GETH_URL" = "" ]
+    then
+        echo "geth.url=http\://localhost\:8545" >> application.properties
+    else
+        echo "geth.url=" $GETH_URL >> application.properties
+    fi
+    mkdir -p data/local && cp application.properties data/local
 fi
 
-cd $CAKESHOP_HOME
-
-# if `docker run` first argument start with `--` the user is passing cakeshop launcher arguments
-if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
-  # read JAVA_OPTS into array
-  java_opts_array=()
-  while IFS= read -r -d '' item; do
-    java_opts_array+=( "$item" )
-  done < <([[ $JAVA_OPTS ]] && xargs printf '%s\0' <<<"$JAVA_OPTS")
-
-  exec gosu $CAKESHOP_USER java "${java_opts_array[@]}" -jar ${CAKESHOP_HOME}/cakeshop.war "$@"
-fi
-
-# As argument is not cakeshop, assume user want to run her own process,
-# for example a `bash` shell to explore this image
-exec "$@"
+java -jar cakeshop-0.10.0.war
