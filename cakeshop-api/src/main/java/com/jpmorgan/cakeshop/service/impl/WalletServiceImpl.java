@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WalletServiceImpl implements WalletService, GethRpcConstants {
 
-    private static final String DUMMY_PAYLOAD_HASH = AbiUtils.sha3AsHex("foobar");
+    private static final String DUMMY_PAYLOAD_HASH = "0x" + AbiUtils.sha3AsHex("foobar");
     private static final Logger LOG = LoggerFactory.getLogger(WalletServiceImpl.class);
 
     @Autowired

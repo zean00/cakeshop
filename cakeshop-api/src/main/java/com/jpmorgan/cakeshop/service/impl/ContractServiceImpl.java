@@ -212,8 +212,10 @@ public class ContractServiceImpl implements ContractService {
 
         Map<String, Object> contractArgs = new HashMap<>();
         contractArgs.put("from", getAddress(from));
-        contractArgs.put("data", data);
-        contractArgs.put("gas", TransactionRequest.DEFAULT_GAS);
+        //contractArgs.put("data", data);
+        contractArgs.put("data", "0x" + data);
+        contractArgs.put("gas", "0x" + Integer.toHexString(TransactionRequest.DEFAULT_GAS));
+        //contractArgs.put("gas", TransactionRequest.DEFAULT_GAS);
 
         // add quorum args
         if (StringUtils.isNotBlank(privateFrom)) {

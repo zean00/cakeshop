@@ -21,6 +21,9 @@ module.exports = {
 		stats: 'errors-only',
 		port: 8081
 	},
+	resolve: {
+		packageMains: [ "webpack", "browser", "web", "browserify","unpkg", "main" ]
+	},
 	plugins: [
 		new webpack.ProvidePlugin({
 			$: 'jquery',
