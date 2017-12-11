@@ -10,3 +10,6 @@ RUN mkdir -p $HOME/.m2
 
 ENV USER_HOME_DIR "/home/cakeshop"
 ENV MAVEN_CONFIG "/home/cakeshop/.m2"
+
+RUN cd /home/cakeshop && git clone https://github.com/zean00/cakeshop --depth 1
+WORKDIR /home/cakeshop/cakeshop
